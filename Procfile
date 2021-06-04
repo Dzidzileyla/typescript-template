@@ -1,1 +1,1 @@
-worker: npm run tsc:dev
+worker: npm run tsc:nodemon
