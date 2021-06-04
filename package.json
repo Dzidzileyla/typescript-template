@@ -15,7 +15,8 @@
     "jest:coverage": "jest --coverage",
     "jest:watch": "jest --watch",
     "swagger:gen": "swaggerGen -c ./swagger.config.json",
-    "start": "npm run clean:dist; npm run tsc:prod:build && npm run tsc:prod:run"
+    "start": "npm run tsc:prod:run",
+    "postinstall": "tsc"
   },
   "repository": {
     "type": "git",
