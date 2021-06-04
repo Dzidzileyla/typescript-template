@@ -1,1 +1,1 @@
-worker: npm run tsc:dev
+worker: yarn run tsc:dev
