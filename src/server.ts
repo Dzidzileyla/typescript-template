@@ -92,10 +92,10 @@ export class ApiServer {
   }
 
   get swaggerProtocols(): string[] {
-    return parseCsvString(process.env.PROTOCOLS as any, '');
+    return parseCsvString(config.swagger.protocols as any, '');
   }
 
   get swaggerHost(): string {
-    return process.env.INGRESS_HOST || '';
+    return config.swagger.host || '';
   }
 }
