@@ -8,6 +8,7 @@
   },
   "scripts": {
     "clean:dist": "rm -r dist/",
+    "clean:db": "rm -r database.db",
     "tsc:prod:build": "tsc",
     "tsc:prod:run": "node dist/src",
     "tsc:dev": "ts-node src",
@@ -31,6 +32,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "sqlite3": "^5.0.2",
     "superagent": "^6.1.0",
     "tslib": "^2.2.0",
     "typescript": "^4.3.2",

@@ -4,8 +4,12 @@ import { HelloWorldApi } from '../services';
 
 @Path('/hello')
 export class HelloWorldController {
-  @Inject
-  service!: HelloWorldApi;
+
+  service: HelloWorldApi;
+  
+  constructor(@Inject service: HelloWorldApi) {
+    this.service = service;
+  }
 
   @GET
   async sayHelloToUnknownUser(): Promise<string> {

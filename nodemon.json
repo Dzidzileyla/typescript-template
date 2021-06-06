@@ -1,6 +1,6 @@
 {
   "ignore": ["**/*.test.ts", "**/*.spec.ts", "node_modules"],
   "watch": ["src"],
-  "exec": "yarn run tsc:dev",
+  "exec": "yarn run clean:db; yarn run tsc:dev",
   "ext": "ts"
 }

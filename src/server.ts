@@ -10,7 +10,7 @@ import cors = require('cors');
 
 export class ApiServer {
   private server: http.Server = null as any;
-  
+
   public PORT: number = (config.app.port as any) || 8081;
   public HOST: string = (config.app.host as any) || '0.0.0.0';
 
@@ -62,9 +62,8 @@ export class ApiServer {
   public async start(): Promise<ApiServer> {
     return new Promise<ApiServer>((resolve, reject) => {
       this.server = this.app.listen(this.PORT, this.HOST, () => {
-
         // tslint:disable-next-line:no-console
-        console.log(`Listening to http://${this.HOST}:${this.PORT}`);
+        console.log(`[App] Listening to http://${this.HOST}:${this.PORT}`);
 
         return resolve(this);
       });
