@@ -3,7 +3,6 @@ import { Inject } from 'typescript-ioc';
 
 import { HelloWorldRepository } from '../repositories/hello-world.repository';
 export class HelloWorldService implements HelloWorldApi {
-  
   helloWorldRepository: HelloWorldRepository;
 
   constructor(@Inject helloWorldRepository: HelloWorldRepository) {
@@ -11,6 +10,6 @@ export class HelloWorldService implements HelloWorldApi {
   }
 
   async greeting(name: string): Promise<string> {
-    return this.helloWorldRepository.hello(name);
+    return await this.helloWorldRepository.hello(name);
   }
 }

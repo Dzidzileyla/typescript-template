@@ -1,19 +1,32 @@
-import * as sqlite3 from 'sqlite3';
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
-sqlite3.verbose();
+const mongoDB = new MongoMemoryServer();
 
-export class Database {
-  private db: sqlite3.Database;
+export class Mongo {
+  static async connect() {
+    const uri = await mongoDB.getUri();
 
-  constructor() {
-    this.connect();
+    const mongooseOpts = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    };
+
+    await mongoose.connect(uri, mongooseOpts);
   }
 
-  connect() {
-    this.db = new sqlite3.Database('database.db');
+  static async closeDatabase() {
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+    await mongoDB.stop();
   }
 
-  getHello() {
-    return 'Hello';
+  static async clearDatabase() {
+    const collections = mongoose.connection.collections;
+
+    for (const key in collections) {
+      const collection = collections[key];
+      await collection.deleteMany({});
+    }
   }
 }

@@ -1,8 +1,9 @@
 import express from 'express';
 import { Server } from 'typescript-rest';
 import config from './config';
-
+import { Mongo } from './db';
 import { parseCsvString } from './util/string-util';
+
 import fs = require('fs');
 import http = require('http');
 import path = require('path');
@@ -53,6 +54,10 @@ export class ApiServer {
     } else {
       this.app.use(apiContext, apiRouter);
     }
+
+    Mongo.connect().then(res => {
+      console.log(`[MongoDB] connected`);
+    });
   }
 
   /**

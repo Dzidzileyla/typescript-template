@@ -4,9 +4,8 @@ import { HelloWorldApi } from '../services';
 
 @Path('/hello')
 export class HelloWorldController {
-
   service: HelloWorldApi;
-  
+
   constructor(@Inject service: HelloWorldApi) {
     this.service = service;
   }
