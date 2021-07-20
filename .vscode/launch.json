@@ -1,0 +1,34 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Test debug - run",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/.bin/jest",
+        "--runInBand",
+        "--detectOpenHandles"
+      ],
+      "envFile": "${workspaceFolder}/.env.dev",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 8228
+    },
+    {
+      "name": "MigaoServerDebug",
+      "type": "node",
+      "request": "launch",
+      "args": ["${workspaceRoot}/src/index.ts"],
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "console": "integratedTerminal"
+    }
+  ]
+}

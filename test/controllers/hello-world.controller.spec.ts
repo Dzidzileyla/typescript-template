@@ -1,56 +1,39 @@
-import { Application } from 'express';
-import request from 'supertest';
-import { Container, Scope } from 'typescript-ioc';
+import { Container } from 'typescript-ioc';
 
-import { HelloWorldApi } from '../../src/services';
+import { HelloWorldService } from '../../src/services';
+import { ApiServer } from '../../src/server';
 import { buildApiServer } from '../helper';
 
-class MockHelloWorldService implements HelloWorldApi {
-  greeting = jest.fn().mockName('greeting');
-}
+import { connect, closeDatabase } from '../../src/db';
 
-describe('hello-world.controller', () => {
-  let app: Application;
-  let mockGreeting: jest.Mock;
+beforeAll(async () => await connect());
+afterAll(async () => await closeDatabase());
 
-  beforeEach(() => {
-    const apiServer = buildApiServer();
+describe('Hello World service', () => {
+  let app: ApiServer;
+  let service: HelloWorldService;
 
-    app = apiServer.getApp();
-
-    Container.bind(HelloWorldApi)
-      .scope(Scope.Singleton)
-      .to(MockHelloWorldService);
-
-    const mockService: HelloWorldApi = Container.get(HelloWorldApi);
-    mockGreeting = mockService.greeting as jest.Mock;
+  beforeAll(() => {
+    app = buildApiServer();
+    service = Container.get(HelloWorldService);
   });
 
-  test('canary validates test infrastructure', () => {
-    expect(true).toBe(true);
+  test('canary test verifies test infrastructure', () => {
+    expect(service).not.toBeUndefined();
   });
 
-  describe('Given /hello', () => {
-    const expectedResponse = 'Hello there!';
-
-    beforeEach(() => {
-      mockGreeting.mockReturnValueOnce(Promise.resolve(expectedResponse));
+  describe('Given greeting()', () => {
+    context('when "Juan" provided', () => {
+      const name = 'Juan';
+      test('then return "Hello, Juan!"', async () => {
+        expect(await service.greeting(name)).toEqual(`Hello, ${name}!`);
+      });
     });
 
-    test('should return "Hello, World!"', done => {
-      request(app).get('/hello').expect(200).expect(expectedResponse, done);
-    });
-  });
-
-  describe('Given /hello/Johnny', () => {
-    const name = 'Johnny';
-
-    beforeEach(() => {
-      mockGreeting.mockImplementation(name => name);
-    });
-
-    test('should return "Hello, Johnny!"', done => {
-      request(app).get(`/hello/${name}`).expect(200).expect(name, done);
+    context('when no name provided', () => {
+      test('then return "Hello, World!"', async () => {
+        expect(await service.greeting()).toEqual('Hello, World!');
+      });
     });
   });
 });
